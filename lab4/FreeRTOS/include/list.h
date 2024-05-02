@@ -171,6 +171,11 @@ typedef struct xLIST
 } List_t;
 
 /*
+ * Lab2 Macro
+ */
+#define listGET_ITEM_OF_HEAD_ENTRY(pxList) ((&((pxList)->xListEnd))->pxNext)
+
+/*
  * Access macro to set the owner of a list item.  The owner of a list item
  * is the object (usually a TCB) that contains the list item.
  *

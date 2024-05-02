@@ -100,7 +100,7 @@ static size_t xFreeBytesRemaining = configADJUSTED_HEAP_SIZE;
 {																					\
 	BlockLink_t *pxIterator;														\
 	size_t xBlockSize;																\
-	BlockLink_t *pxPrevious, *pxBlockHolding = pxBlockToInsert;						\
+	BlockLink_t *pxBlockHolding = pxBlockToInsert;						\
     /* TODO: Merge free blocks                                                    */\
     /*                                                                            */\
     /* HINT                                                                       */\
@@ -113,10 +113,42 @@ static size_t xFreeBytesRemaining = configADJUSTED_HEAP_SIZE;
 	/* 4. Beware the start of the address when merge.							  */\
     /*                                                                            */\
                                                                                     \
+																					\
 	xBlockSize = pxBlockHolding->xBlockSize;										\
 																					\
+	size_t xStartAddress = (size_t) pxBlockHolding;									\
+	size_t xEndAddress = (xStartAddress + xBlockSize);								\
+																					\
+	BlockLink_t *pxPrevious = &(xStart);											\
+	BlockLink_t *pxCur = xStart.pxNextFreeBlock;									\
+																					\
+	while ((void *) pxCur != (void *) &(xEnd)) {									\
+																					\
+		size_t xCurBlockStartAddr = (size_t) pxCur;									\
+		size_t xCurBlockSize = pxCur->xBlockSize;									\
+		size_t xCurBlockEndAddr = (xCurBlockStartAddr + xCurBlockSize);				\
+																					\
+		if (xStartAddress != xCurBlockEndAddr && xEndAddress != xCurBlockStartAddr) {	\
+			pxPrevious = pxCur;														\
+			pxCur = pxCur->pxNextFreeBlock;											\
+			continue;																\
+		}																			\
+																					\
+		if (xStartAddress == xCurBlockEndAddr) {									\
+			pxBlockHolding = pxCur;													\
+			pxBlockHolding->xBlockSize += xBlockSize;								\
+		}																			\
+		else if (xEndAddress == xCurBlockStartAddr) {								\
+			pxBlockHolding->xBlockSize += xCurBlockSize;							\
+		}																			\
+		pxPrevious->pxNextFreeBlock = pxCur->pxNextFreeBlock;						\
+		pxCur = pxCur->pxNextFreeBlock;												\
+																					\
+	}																				\
+																					\
+	xBlockSize = pxBlockHolding->xBlockSize; 										\
 	/* Iterate through the list until a block is found that has a larger size */	\
-	/* than the block we are inserting. */											\
+	/* than the block we are inserting. */		 									\
 	for( pxIterator = &xStart; pxIterator->pxNextFreeBlock->xBlockSize < xBlockSize; pxIterator = pxIterator->pxNextFreeBlock )	\
 	{																				\
 		/* There is nothing to do here - just iterate to the correct position. */	\
@@ -291,6 +323,11 @@ uint8_t *pucAlignedHeap;
 	pxFirstFreeBlock->pxNextFreeBlock = &xEnd;
 }
 /*-----------------------------------------------------------*/
+void vPadding(char str [], int padNum) {
+	for (int i = 0; i < padNum; ++i) {
+		strcat(str, " ");
+	}
+}
 
 void vPrintFreeList(void)
 {
@@ -301,4 +338,52 @@ void vPrintFreeList(void)
      * > sprintf(data, "%p         %d           %4d         %p\n\r", ...);
      * > sprintf(data, "configADJUSTED_HEAP_SIZE: %0d xFreeBytesRemaining: %0d\n\r", ...);
 	 */
+    char msg [100];
+    memset(msg, '\0', sizeof(msg));
+    sprintf(msg, "StartAddress heapSTRUCT_SIZE xBlockSize EndAddress\n\r");
+    HAL_UART_Transmit(&huart2, (uint8_t *) msg, strlen(msg), 0xffff);
+
+    BlockLink_t *curNode = xStart.pxNextFreeBlock;
+    while ( (void *) curNode != (void *) &(xEnd) ) {
+
+		memset(msg, '\0', sizeof(msg));
+
+		char startAddr [20];
+		memset(startAddr, '\0', sizeof(startAddr));
+		itoa((size_t) curNode, startAddr, 16);
+		strcat(msg, "0x");
+		strcat(msg, startAddr);
+		vPadding(msg, 9);
+
+		char heapStructSize [5];
+		memset(heapStructSize, '\0', sizeof(heapStructSize));
+		itoa((uint16_t) heapSTRUCT_SIZE, heapStructSize, 10);
+		strcat(msg, heapStructSize);
+		vPadding(msg, 10);
+
+		char blockSize [10];
+		memset(blockSize, '\0', sizeof(blockSize));
+		itoa((size_t) curNode->xBlockSize, blockSize, 10);
+		char tmp [10];
+		memset(tmp, '\0', sizeof(tmp));
+		vPadding(tmp, 5 - strlen(blockSize));
+		strcat(tmp, blockSize);
+		strcat(msg, tmp);
+		vPadding(msg, 5);
+
+		char endAddr [20];
+		memset(endAddr, '\0', sizeof(endAddr));
+		itoa((size_t) curNode + curNode->xBlockSize, endAddr, 16);
+		strcat(msg, "0x");
+		strcat(msg, endAddr);
+		strcat(msg, "\n\r");
+
+		HAL_UART_Transmit(&huart2, (uint8_t *) msg, strlen(msg), 0xffff);
+
+		curNode = curNode->pxNextFreeBlock;
+    }
+
+	memset(msg, '\0', sizeof(msg));
+	sprintf(msg, "configADJUSTED_HEAP_SIZE: %d xFreeBytesRemaining: %d\n\r", configADJUSTED_HEAP_SIZE, xFreeBytesRemaining);
+	HAL_UART_Transmit(&huart2, (uint8_t *) msg, strlen(msg), 0xffff);
 }

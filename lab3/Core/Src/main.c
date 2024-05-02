@@ -24,6 +24,8 @@
 /* USER CODE BEGIN Includes */
 #include "FreeRTOS.h"
 #include "task.h"
+#include "semphr.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -62,13 +64,28 @@
 #define LIS3DSH_MASK1_A_ADDR                 0x5A
 #define LIS3DSH_SETT1_ADDR                   0x5B
 #define LIS3DSH_OUTS1_ADDR                   0x5F
+
+#define LONG_TIME 							 0xffff
+
+#define WAKEUP_STATE_MACHINE_CONFIG	\
+	MEMS_Write(0x21,0x01);			\
+	MEMS_Write(0x23,0x48);			\
+	MEMS_Write(0x20,0x67);			\
+	MEMS_Write(0x24,0x00);			\
+	MEMS_Write(0x57,0x55);			\
+	MEMS_Write(0x40,0x05);			\
+	MEMS_Write(0x41,0x11);			\
+	MEMS_Write(0x59,0xFC);			\
+	MEMS_Write(0x5A,0xFC);			\
+	MEMS_Write(0x5B,0x01);			\
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
-
+SemaphoreHandle_t xSemaphore = NULL;
+uint8_t data;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -94,16 +111,47 @@ void MEMS_Read(uint8_t address,uint8_t *data){
 	HAL_SPI_Receive(&hspi1,data,1,10);
 	HAL_GPIO_WritePin(GPIOE,GPIO_PIN_3,GPIO_PIN_SET);
 }
-void LED_Task(void *pvParameter)
+void Green_LED_Task(void *pvParameters)
 {
-	for(;;){
-		uint8_t data;
-		MEMS_Read(LIS3DSH_WHO_AM_I_ADDR,&data);
-		if(data == 0x3F){
-		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+	for(;;)
+	{
+		// Green LED blinks
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+		uint32_t beginTime = HAL_GetTick();
+		while (HAL_GetTick() - beginTime < 500/portTICK_RATE_MS) {
 		}
-		vTaskDelay(500/portTICK_RATE_MS);
 	}
+}
+void vHandlerTask( void *pvParameters )
+{
+
+	for(;;)
+	{
+		/* Take the semaphore */
+		if(xSemaphoreTake(xSemaphore, portMAX_DELAY) == pdTRUE ) {
+			// semaphore was obtained
+                // Orange LED blinks 5 times
+				for (int i = 0; i < 10; ++i) {
+					HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+					uint32_t beginTime = HAL_GetTick();
+					while (HAL_GetTick() - beginTime < 500/portTICK_RATE_MS) {
+					}
+				}
+			// reset interrupt register
+			MEMS_Read(LIS3DSH_OUTS1_ADDR, &data);
+//			WAKEUP_STATE_MACHINE_CONFIG
+		}
+	}
+}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	/* toggle Red LED */
+	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+
+	/* Give the semaphore to unblock the handler task */
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	xSemaphoreGiveFromISR( xSemaphore, &xHigherPriorityTaskWoken );
+	portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
 
 }
 /* USER CODE END 0 */
@@ -124,27 +172,25 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
+    /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  WAKEUP_STATE_MACHINE_CONFIG
+  xSemaphore = xSemaphoreCreateBinary();
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  xTaskCreate(
-  		  LED_Task,
-  		  "LED_Task",
-  		  128,
-  		  NULL,
-  		  1,
-  		  NULL);
+
+
+  xTaskCreate(Green_LED_Task, "Green LED", 1000, NULL, 1, NULL);
+  xTaskCreate(vHandlerTask, "Handler Task", 1000, NULL, 4, NULL);
+
   vTaskStartScheduler();
   /* USER CODE END 2 */
 
@@ -263,7 +309,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIO_Output_GPIO_Port, GPIO_Output_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(OTG_FS_PowerSwitchOn_GPIO_Port, OTG_FS_PowerSwitchOn_Pin, GPIO_PIN_SET);
@@ -272,12 +318,12 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOD, Green_LED_Pin|Orange_LED_Pin|Red_LED_Pin|Blue_LED_Pin
                           |Audio_RST_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : GPIO_Output_Pin */
-  GPIO_InitStruct.Pin = GPIO_Output_Pin;
+  /*Configure GPIO pin : PE3 */
+  GPIO_InitStruct.Pin = GPIO_PIN_3;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIO_Output_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /*Configure GPIO pin : OTG_FS_PowerSwitchOn_Pin */
   GPIO_InitStruct.Pin = OTG_FS_PowerSwitchOn_Pin;
@@ -367,11 +413,9 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : MEMS_INT2_Pin */
-  GPIO_InitStruct.Pin = MEMS_INT2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(MEMS_INT2_GPIO_Port, &GPIO_InitStruct);
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 15, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
