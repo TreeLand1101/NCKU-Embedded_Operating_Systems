@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="pxBlockHolding"/>
+		<item key="selection" value=""/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="pxBlockPtr"/>
-			<item value="pxBlockHolding"/>
-			<item value="heapSTRUCT_SIZE"/>
-			<item value="heapStructSize"/>
-			<item value="configADJUSTED_HEAP_SIZE"/>
-			<item value="xEnd"/>
-			<item value="xStart"/>
-			<item value="A_BLOCK_LINK"/>
-			<item value="main("/>
-			<item value="MX_GPIO_Init"/>
-			<item value="SVC_Handler"/>
-			<item value="PendSV_Handler"/>
-			<item value="xSemaphore"/>
-			<item value="WAKEUP_STATE_MACHINE_CONFIG"/>
-			<item value="vHandlerTask"/>
+			<item value="GPIOD"/>
+			<item value="GPIOB"/>
+			<item value="hi2c1"/>
+			<item value="MX_I2C1_Init"/>
+			<item value="HAL_I2C_MspDeInit"/>
+			<item value="GPIO_InitStruct.Pull"/>
+			<item value="PA8"/>
+			<item value="GPIO_PIN_1"/>
+			<item value="GPIO_PIN_12 "/>
+			<item value="GPIO"/>
+			<item value="GPIO_12"/>
+			<item value="GPIO_PIN_12"/>
+			<item value="fpio_pin_12"/>
+			<item value="PC"/>
+			<item value="lcd16x2_i2c_printf"/>
 		</list>
 		<list key="replacehistory">
+			<item value=""/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1168"/>
-		<item key="DIALOG_Y_ORIGIN" value="430"/>
-		<item key="DIALOG_WIDTH" value="738"/>
+		<item key="DIALOG_X_ORIGIN" value="1095"/>
+		<item key="DIALOG_Y_ORIGIN" value="217"/>
+		<item key="DIALOG_WIDTH" value="528"/>
 		<item key="DIALOG_HEIGHT" value="170"/>
 		<item key="DIALOG_FONT_NAME" value="1|Microsoft JhengHei UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft JhengHei UI"/>
 	</section>

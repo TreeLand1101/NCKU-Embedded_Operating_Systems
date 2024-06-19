@@ -1,0 +1,10 @@
+15:16:04 **** Incremental Build of configuration Debug for project lcd_digital_clock ****
+make -j16 all 
+arm-none-eabi-size  lcd_digital_clock.elf 
+   text	   data	    bss	    dec	    hex	filename
+   9272	    124	   1964	  11360	   2c60	lcd_digital_clock.elf
+Finished building: default.size.stdout
+ 
+
+15:16:05 Build Finished. 0 errors, 0 warnings. (took 306ms)
+

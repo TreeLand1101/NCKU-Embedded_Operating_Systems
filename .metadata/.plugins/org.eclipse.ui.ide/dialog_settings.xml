@@ -7,10 +7,16 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="E:\Downloads\lcd-digital-clock-main\lcd-digital-clock-main\workspace\lcd_digital_clock"/>
+			<item value="E:\Downloads\STM32F4-SD-MP3-Player"/>
+			<item value="C:\Users\Mr.Lee\STM32CubeIDE\workspace_1.11.0\final"/>
+			<item value="C:\Users\Mr.Lee\STM32CubeIDE\workspace_1.11.0\fat.lab5"/>
+			<item value="E:\Downloads\LAB5\LAB5\fat.lab5"/>
 			<item value="C:\Users\Mr.Lee\STM32CubeIDE\workspace_1.11.0\t"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
 			<item value=""/>
+			<item value="E:\Downloads\LAB5.rar"/>
 		</list>
 	</section>
 	<section name="SmartImportWizard">
@@ -19,6 +25,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="E:\Downloads\STM32F4-SD-MP3-Player"/>
 			<item value="C:\Users\Mr.Lee\STM32CubeIDE\workspace_1.11.0\t"/>
 			<item value="C:\Users\Mr.Lee\STM32CubeIDE\workspace_1.11.0"/>
 		</list>

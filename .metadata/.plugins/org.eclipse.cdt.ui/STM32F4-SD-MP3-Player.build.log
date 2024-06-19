@@ -1,0 +1,10 @@
+19:58:15 **** Incremental Build of configuration Debug for project STM32F4-SD-MP3-Player ****
+make -j16 all 
+arm-none-eabi-size  STM32F4-SD-MP3-Player.elf 
+   text	   data	    bss	    dec	    hex	filename
+  87132	    268	  52824	 140224	  223c0	STM32F4-SD-MP3-Player.elf
+Finished building: default.size.stdout
+ 
+
+19:58:16 Build Finished. 0 errors, 0 warnings. (took 776ms)
+

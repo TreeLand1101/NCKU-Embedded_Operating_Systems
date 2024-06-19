@@ -1,21 +1,58 @@
-14:32:50 **** Incremental Build of configuration Debug for project lab4 ****
-make -j16 all 
-arm-none-eabi-gcc "../FreeRTOS/portable/MemMang/heap_2.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I"C:/Users/Mr.Lee/STM32CubeIDE/workspace_1.11.0/lab4/FreeRTOS/include" -I"C:/Users/Mr.Lee/STM32CubeIDE/workspace_1.11.0/lab4/FreeRTOS/portable/ARM_CM4F" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"FreeRTOS/portable/MemMang/heap_2.d" -MT"FreeRTOS/portable/MemMang/heap_2.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "FreeRTOS/portable/MemMang/heap_2.o"
-arm-none-eabi-gcc -o "lab4.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Mr.Lee\STM32CubeIDE\workspace_1.11.0\lab4\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="lab4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: lab4.elf
+14:57:37 **** Clean-only build of configuration Debug for project lcd_digital_clock ****
+make -j16 clean 
+rm -rf ./Startup/startup_stm32f407vgtx.d ./Startup/startup_stm32f407vgtx.o
+rm -rf ./Src/main.d ./Src/main.o ./Src/main.su ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su
+rm -rf ./Driver/Src/stm32f407xx_gpio_driver.d ./Driver/Src/stm32f407xx_gpio_driver.o ./Driver/Src/stm32f407xx_gpio_driver.su ./Driver/Src/stm32f407xx_i2c_driver.d ./Driver/Src/stm32f407xx_i2c_driver.o ./Driver/Src/stm32f407xx_i2c_driver.su ./Driver/Src/stm32f407xx_rcc_driver.d ./Driver/Src/stm32f407xx_rcc_driver.o ./Driver/Src/stm32f407xx_rcc_driver.su ./Driver/Src/stm32f407xx_spi_driver.d ./Driver/Src/stm32f407xx_spi_driver.o ./Driver/Src/stm32f407xx_spi_driver.su ./Driver/Src/stm32f407xx_usart_driver.d ./Driver/Src/stm32f407xx_usart_driver.o ./Driver/Src/stm32f407xx_usart_driver.su
+rm -rf ./Bsp/Src/lcd_hd44780u.d ./Bsp/Src/lcd_hd44780u.o ./Bsp/Src/lcd_hd44780u.su ./Bsp/Src/rtc_ds1307.d ./Bsp/Src/rtc_ds1307.o ./Bsp/Src/rtc_ds1307.su
+rm -rf default.size.stdout lcd_digital_clock.elf lcd_digital_clock.list lcd_digital_clock.map
  
-arm-none-eabi-size  lab4.elf 
-arm-none-eabi-objdump -h -S lab4.elf  > "lab4.list"
+14:57:37 **** Build of configuration Debug for project lcd_digital_clock ****
+make -j16 all 
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32f407vgtx.d" -MT"Startup/startup_stm32f407vgtx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32f407vgtx.o" "../Startup/startup_stm32f407vgtx.s"
+arm-none-eabi-gcc "../Src/lcd_digital_clock.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I../Bsp/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Driver/Inc" -I../Driver/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Bsp/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/lcd_digital_clock.d" -MT"Src/lcd_digital_clock.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/lcd_digital_clock.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I../Bsp/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Driver/Inc" -I../Driver/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Bsp/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I../Bsp/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Driver/Inc" -I../Driver/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Bsp/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+arm-none-eabi-gcc "../Driver/Src/stm32f407xx_gpio_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I../Bsp/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Driver/Inc" -I../Driver/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Bsp/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Driver/Src/stm32f407xx_gpio_driver.d" -MT"Driver/Src/stm32f407xx_gpio_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Driver/Src/stm32f407xx_gpio_driver.o"
+arm-none-eabi-gcc "../Driver/Src/stm32f407xx_i2c_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I../Bsp/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Driver/Inc" -I../Driver/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Bsp/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Driver/Src/stm32f407xx_i2c_driver.d" -MT"Driver/Src/stm32f407xx_i2c_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Driver/Src/stm32f407xx_i2c_driver.o"
+arm-none-eabi-gcc "../Driver/Src/stm32f407xx_rcc_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I../Bsp/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Driver/Inc" -I../Driver/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Bsp/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Driver/Src/stm32f407xx_rcc_driver.d" -MT"Driver/Src/stm32f407xx_rcc_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Driver/Src/stm32f407xx_rcc_driver.o"
+arm-none-eabi-gcc "../Driver/Src/stm32f407xx_spi_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I../Bsp/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Driver/Inc" -I../Driver/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Bsp/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Driver/Src/stm32f407xx_spi_driver.d" -MT"Driver/Src/stm32f407xx_spi_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Driver/Src/stm32f407xx_spi_driver.o"
+arm-none-eabi-gcc "../Driver/Src/stm32f407xx_usart_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I../Bsp/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Driver/Inc" -I../Driver/Inc -I"E:/Downloads/lcd-digital-clock-main/lcd-digital-clock-main/workspace/lcd_digital_clock/Bsp/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Driver/Src/stm32f407xx_usart_driver.d" -MT"Driver/Src/stm32f407xx_usart_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Driver/Src/stm32f407xx_usart_driver.o"
+arm-none-eabi-gcc "../Bsp/Src/lcd_hd44780u.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I../Bsp/Inc -I../Driver/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Bsp/Src/lcd_hd44780u.d" -MT"Bsp/Src/lcd_hd44780u.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Bsp/Src/lcd_hd44780u.o"
+arm-none-eabi-gcc "../Bsp/Src/rtc_ds1307.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I../Bsp/Inc -I../Driver/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Bsp/Src/rtc_ds1307.d" -MT"Bsp/Src/rtc_ds1307.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Bsp/Src/rtc_ds1307.o"
+../Driver/Src/stm32f407xx_usart_driver.c: In function 'USART_IRQHandling':
+../Driver/Src/stm32f407xx_usart_driver.c:417:32: warning: variable 'temp3' set but not used [-Wunused-but-set-variable]
+  417 |         uint32_t temp1, temp2, temp3;
+      |                                ^~~~~
+arm-none-eabi-gcc -o "lcd_digital_clock.elf" @"objects.list"   -mcpu=cortex-m4 -T"E:\Downloads\lcd-digital-clock-main\lcd-digital-clock-main\workspace\lcd_digital_clock\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="lcd_digital_clock.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.11.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: lcd_digital_clock.elf has a LOAD segment with RWX permissions
+Finished building target: lcd_digital_clock.elf
+ 
+arm-none-eabi-size  lcd_digital_clock.elf 
+arm-none-eabi-objdump -h -S lcd_digital_clock.elf  > "lcd_digital_clock.list"
    text	   data	    bss	    dec	    hex	filename
-  19760	    100	   7452	  27312	   6ab0	lab4.elf
+   9272	    124	   1964	  11360	   2c60	lcd_digital_clock.elf
 Finished building: default.size.stdout
  
-Finished building: lab4.list
+Finished building: lcd_digital_clock.list
  
-14:32:58 **** Incremental Build of configuration Debug for project lab4 ****
+15:14:42 **** Incremental Build of configuration Debug for project lcd_digital_clock ****
 make -j16 all 
-arm-none-eabi-size  lab4.elf 
+arm-none-eabi-size  lcd_digital_clock.elf 
    text	   data	    bss	    dec	    hex	filename
-  19760	    100	   7452	  27312	   6ab0	lab4.elf
+   9272	    124	   1964	  11360	   2c60	lcd_digital_clock.elf
+Finished building: default.size.stdout
+ 
+15:14:53 **** Incremental Build of configuration Debug for project lcd_digital_clock ****
+make -j16 all 
+arm-none-eabi-size  lcd_digital_clock.elf 
+   text	   data	    bss	    dec	    hex	filename
+   9272	    124	   1964	  11360	   2c60	lcd_digital_clock.elf
+Finished building: default.size.stdout
+ 
+15:16:04 **** Incremental Build of configuration Debug for project lcd_digital_clock ****
+make -j16 all 
+arm-none-eabi-size  lcd_digital_clock.elf 
+   text	   data	    bss	    dec	    hex	filename
+   9272	    124	   1964	  11360	   2c60	lcd_digital_clock.elf
 Finished building: default.size.stdout
  
